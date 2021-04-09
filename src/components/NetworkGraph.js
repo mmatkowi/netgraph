@@ -85,14 +85,29 @@ class NetworkGraph extends React.Component {
         .on("end", dragended);
     }
 
+    select(graph)
+    .append('defs')
+    .append('marker')
+    .attr('id', 'arrow')
+    .attr('viewBox', [0, 0, 6, 6])
+    .attr('refX', 10)
+    .attr('refY', 3)
+    .attr('markerWidth', 6)
+    .attr('markerHeight', 6)
+    .attr('orient', 'auto-start-reverse')
+    .append('path')
+    .attr('d', d3.line()([[0, 0], [0, 6], [6, 3]]))
+    .attr('fill', "#999")
+
     const link = select(graph)
       .append("g")
       .attr("stroke", "#999")
+      .attr("fill", "#999")
       .attr("stroke-opacity", 0.6)
       .selectAll("line")
       .data(links)
-      .join("line")
-      .attr("stroke-width", d => Math.sqrt(d.value));
+      .join('line')
+      .attr('marker-end', 'url(#arrow)');
 
     const node = select(graph)
       .append("g")
