@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
     "bootstrap": "^4.6.0",
+    "d3": "^6.6.2",
     "d3-drag": "^2.0.0",
     "d3-force": "^2.1.1",
     "d3-shape": "^2.1.0",

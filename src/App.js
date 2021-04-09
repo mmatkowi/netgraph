@@ -12,12 +12,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { inputs: [ {id: uuidv4(), source: '', destination:'', service:''} ], inputsCount: 1}
+
     this.appendInput = this.appendInput.bind(this);
     this.removeInput = this.removeInput.bind(this);
     this.refreshGraph = this.refreshGraph.bind(this);
     this.updateFormData = this.updateFormData.bind(this);
     this.prepareGraphData = this.prepareGraphData.bind(this);
     this.inputIsLast = this.inputIsLast.bind(this);
+
   }
 
   appendInput() {
@@ -41,14 +43,14 @@ class App extends React.Component {
     var nodesWithDup = [];
     inputs.map(input => nodesWithDup = nodesWithDup.concat([input.source, input.destination]));
     var nodes = nodesWithDup
-      .reduce(function(a,b){
-        if (a.indexOf(b) < 0 ) a.push(b);
+      .reduce( function(a,b) {
+        if (a.indexOf(b) < 0 && b !== "") a.push(b);
         return a;
       },[])
       .map(node => node = {id: node})
       
-      var links = [];
-      inputs.map(input => links = links.concat([{source: input.source, target: input.destination}]))
+    var links = [];
+    inputs.map(input => (input.source !== "" && input.destination !== "") && (links = links.concat([{source: input.source, target: input.destination}])))
 
     var data = {nodes: nodes, links: links}
     return data;
@@ -71,7 +73,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.prepareGraphData())
     return (
       <div id="app">
         <nav className="navbar navbar-expand-sm bg-secondary navbar-light">
@@ -94,6 +95,8 @@ class App extends React.Component {
           <h1 className="mt-4">Network Graph</h1>
           <NetworkGraph
             data={this.prepareGraphData()}
+            width={600}
+            height={600}
           />
         </div>
       </div>
